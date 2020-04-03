@@ -4,13 +4,19 @@ import { asyncAction } from "mobx-utils";
 import { observable } from "mobx";
 import { observer } from "mobx-react-lite";
 
+enum State {
+  NONE = "none",
+  LOADING = "loading",
+  DONE = "done"
+}
+
 class Store {
-  @observable loading: boolean = false;
+  @observable state: State = State.NONE;
 
   @asyncAction *asyncSomething() {
-    this.loading = true;
+    this.state = State.LOADING;
     yield deloy(3_000);
-    this.loading = false;
+    this.state = State.LOADING;
   }
 }
 
@@ -54,7 +60,7 @@ export const Home = observer(() => {
           marginBottom: "1rem"
         }}
       >
-        <div>{store.loading ? "loading" : "done"}</div>
+        <div>{store.state}</div>
         <button
           onClick={async () => {
             (await store.asyncSomething()) ?? history.push("/about");
