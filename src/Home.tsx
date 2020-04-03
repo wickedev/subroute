@@ -16,7 +16,7 @@ class Store {
   @asyncAction *asyncSomething() {
     this.state = State.LOADING;
     yield deloy(3_000);
-    this.state = State.LOADING;
+    this.state = State.DONE;
   }
 }
 
